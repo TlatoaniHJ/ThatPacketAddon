@@ -1,0 +1,58 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        maven { url 'https://plugins.gradle.org/m2/'}
+    }
+    dependencies {
+        classpath 'us.tlatoani:MundoCore-GradlePlugin:1.0-BETA.4-SNAPSHOT.17'
+    }
+}
+
+apply plugin: 'us.tlatoani.mundocore'
+
+group 'us.tlatoani'
+version '1.0-BETA.1'
+
+description  = 'A Skript addon that allows Skripters to manipulate the sending and receiving of Minecraft packets.'
+
+dependencies {
+    compileOnly 'io.netty:netty-all:4.0.4.Final'
+    compileOnly 'us.tlatoani:Tablisknu:1.0-BETA.5-SNAPSHOT.1'
+
+    compile 'us.tlatoani.mundosyntax:MundoSyntax:1.0'
+}
+
+mundo {
+    versionSummary 'The first beta release of ThatPacketAddon.'
+
+    coreModules(
+            'Base:1.0-BETA.12',
+            'Registration:1.0-BETA.7',
+            'ReflectiveRegistration:1.0-BETA.2',
+            'Enum:1.0-BETA.2',
+            'PropertyExpression:1.0-BETA.0',
+            'Reflection:1.0-BETA.1',
+            'EventScope:1.0-BETA.0',
+            'BaseEvent:1.0-BETA.0',
+            'GroupedList:1.0-BETA.0',
+            'Util:1.0-BETA.2',
+            'Updating:1.0-BETA.7'
+    )
+    spigot '1.12.2-R0.1-SNAPSHOT'
+    protocolLib '4.4.0-SNAPSHOT'
+    bStats '1.2'
+
+    command.name 'packetaddon'
+    command.description 'Basic information about ThatPacketAddon, viewing documentation, reloading the config, and updating.'
+
+    personalRepo '../maven-repo'
+    mundoServerIdentity '../EC2/mundo_key.pem'
+}
+
+shadowJar {
+    relocate 'us.tlatoani.mundosyntax', 'us.tlatoani.thatpacketaddon.mundosyntax'
+}
+
+compileJava {
+    options.compilerArgs << "-Xlint:deprecation"
+}
