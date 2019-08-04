@@ -295,7 +295,7 @@ public class Converters {
                 + "Note that Minecraft's BlockPosition class does not have information about the world, "
                 + "so the returned location will be in your server's main world. "
                 + "Presumably (if you have more than one world) you will want to set this to be the appropriate world given the context.");
-        registerField("location collection", Location[].class, // tested w/ server_explosion
+        registerField("Location Collection", Location[].class, // tested w/ server_explosion
                 PacketContainer::getBlockPositionCollectionModifier,
                 collection -> collection.stream().map(Converters::fromBlockPosition).toArray(Location[]::new),
                 array -> Arrays.stream(array).map(Converters::toBlockPosition).collect(Collectors.toList())
@@ -310,18 +310,18 @@ public class Converters {
                 .document("1.0",
                 "The value of the field numbered at the specified index of the specified packet's UUID fields. "
                         + "Note that UUIDs will be returned as a string with dashes, and strings used for setting should also have dashes.");
-        registerField("worldtype", WorldType.class, PacketContainer::getWorldTypeModifier); // tested w/ respawn
-        registerField("minecraft key", MinecraftKey.class, PacketContainer::getMinecraftKeys); // tested w/ select_advancement_tab
+        registerField("Worldtype", WorldType.class, PacketContainer::getWorldTypeModifier).document("1.0"); // tested w/ respawn
+        registerField("Minecraft Key", MinecraftKey.class, PacketContainer::getMinecraftKeys).document("1.0"); // tested w/ select_advancement_tab
 
-        registerField("collection", Object[].class, // tested w/ scoreboard_team
+        registerField("Collection", Object[].class, // tested w/ scoreboard_team
                 packet -> packet.getSpecificModifier(Collection.class),
                 Collection::toArray,
                 Arrays::asList
-        );
+        ).document("1.0");
 
         Reflection.ConstructorInvoker packetDataSerializerConstructor = Reflection.getConstructor(
                 Reflection.getMinecraftClass("PacketDataSerializer"), ByteBuf.class);
-        registerField("byte buffer", Number[].class, // tested w/ custom_payload (server and client)
+        registerField("Byte Buffer", Number[].class, // tested w/ custom_payload (server and client)
                 packet -> packet.getSpecificModifier(ByteBuf.class),
                 byteBuf -> {
                     Number[] result = new Number[byteBuf.writerIndex()];
@@ -338,7 +338,7 @@ public class Converters {
                     ByteBuf byteBuf = Unpooled.wrappedBuffer(bytes);
                     return  (ByteBuf) packetDataSerializerConstructor.invoke(byteBuf);
                 }
-        );
+        ).document("1.0");
         registerField("Gamemode", GameMode.class, PacketContainer::getGameModes, // tested w/ respawn
                 EnumWrappers.NativeGameMode::toBukkit,
                 ExprGameModeOfPlayerInfoData::toNative
@@ -346,19 +346,21 @@ public class Converters {
                 "The value of the field numbered at the specified index of the specified packet's gamemode fields. "
                         + "Note that ProtocolLib's NativeGameMode class also has a NOT_SET mode, which will appear as the field being not set. "
                         + "If you want to deal more directly with the NOT_SET mode, you can use the NativeGameMode Field of Packet expression.");
-        registerField("difficulty", Difficulty.class, PacketContainer::getDifficulties, // tested w/ respawn
+        registerField("Difficulty", Difficulty.class, PacketContainer::getDifficulties, // tested w/ respawn
                 Converters::fromWrapperDifficulty,
                 Converters::toWrapperDifficulty
-        );
-        registerField("Profile", WrappedGameProfile.class, PacketContainer::getGameProfiles); // tested w/ start (login_client)
+        ).document("1.0");
+        registerField("Profile", WrappedGameProfile.class, PacketContainer::getGameProfiles).document("1.0"); // tested w/ start (login_client)
         registerField("PlayerInfoData List", PlayerInfoData[].class, // tested w/ player_info
                 PacketContainer::getPlayerInfoDataLists,
                 list -> list.toArray(new PlayerInfoData[0]),
                 Arrays::asList
-        );
-        registerField("Server Ping", WrappedServerPing.class, PacketContainer::getServerPings); // tested w/ server_info
-        registerField("Vector", Vector.class, PacketContainer::getVectors); // tested w/ use_entity
-        registerField("Dimension id", Number.class, // tested w/ login
+        ).document("1.0");
+        registerField("Server Ping", WrappedServerPing.class, PacketContainer::getServerPings).document("1.0"); // tested w/ server_info
+        registerField("Vector", Vector.class, PacketContainer::getVectors).document("1.0",
+                "The value of the field numbered at the specified index of the specified packet's playerinfodata list fields. "
+                        + "Note that you need a version of Skript that has vectors in order to use this packet field."); // tested w/ use_entity
+        registerField("Dimension ID", Number.class, // tested w/ login
                 PacketContainer::getDimensions,
                 Function.identity(),
                 Number::intValue)
@@ -403,7 +405,7 @@ public class Converters {
                         + "(which is the same as the index, so it will be \"example_name\"), "
                         + "{_nbt::value::example_name::type} for the type, let's say \"string\", "
                         + "and {_nbt::value::example_name::value} for the actual value, let's say \"pie\")");
-        Converters.<List<NbtBase<?>>, JSONObject[]>registerField("NBT List", JSONObject[].class, PacketContainer::getListNbtModifier, // tested w/ map_chunk (chonky)
+        registerField("NBT List", JSONObject[].class, PacketContainer::getListNbtModifier, // tested w/ map_chunk (chonky)
                 list -> {
                     JSONObject[] array = new JSONObject[list.size()];
                     for (int i = 0; i < array.length; i++) {

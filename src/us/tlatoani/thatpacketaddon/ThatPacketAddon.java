@@ -122,12 +122,18 @@ public class ThatPacketAddon extends MundoAddon {
 
         StringJoiner priorityJoiner = new StringJoiner("|", "(", ")");
         for (int i = 1; i <= ListenerPriority.values().length; i++) {
-            priorityJoiner.add(i + '¦' + ListenerPriority.values()[i - 1].name().toLowerCase());
+            priorityJoiner.add(i + "¦" + ListenerPriority.values()[i - 1].name().toLowerCase());
         }
-        Registration.registerEvent("Packet Event", EvtPacketEvent.class, BukkitPacketEvent.class, "packet event %packettypes% [with " + priorityJoiner.toString() + " priority]")
-                .document("Packet Event", "1.0", "Called when a packet of one of the specified types is being sent or received.")
+        Registration.registerEvent("Packet Event", EvtPacketEvent.class, BukkitPacketEvent.class,
+                "packet event %packettypes% [with " + priorityJoiner.toString() + " priority]")
+                .document("Packet Event", "1.0",
+                        "Called when a packet of one of the specified types is being sent or received. "
+                        + "You can optionally specify a priority; triggers with higher priority will be called later "
+                        + "(so high priority will come after low priority, and monitor priority will come last). "
+                        + "By default, the priority is normal.")
                 .eventValue(PacketContainer.class, "1.0", "The packet being sent or received.")
-                .eventValue(PacketType.class, "1.0", "The packettype of the packet being sent or received. Equivalent to 'event packet's packettype'.")
+                .eventValue(PacketType.class, "1.0",
+                        "The packettype of the packet being sent or received. Equivalent to 'event packet's packettype'.")
                 .eventValue(Player.class, "1.0", "The player sending or receiving the packet.");
         Registration.registerEventValue(BukkitPacketEvent.class, PacketContainer.class, BukkitPacketEvent::getPacket);
         Registration.registerEventValue(BukkitPacketEvent.class, PacketType.class, BukkitPacketEvent::getPacketType);

@@ -11,7 +11,7 @@ buildscript {
 apply plugin: 'us.tlatoani.mundocore'
 
 group 'us.tlatoani'
-version '1.0-BETA.1'
+version '1.0-BETA.2'
 
 description  = 'A Skript addon that allows Skripters to manipulate the sending and receiving of Minecraft packets.'
 
@@ -23,7 +23,7 @@ dependencies {
 }
 
 mundo {
-    versionSummary 'The first beta release of ThatPacketAddon.'
+    versionSummary 'Fix documentation for certain packet field expressions, and fix packet event priority.'
 
     coreModules(
             'Base:1.0-BETA.12',
