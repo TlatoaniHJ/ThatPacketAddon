@@ -23,7 +23,7 @@ public class SkriptPacketEventListener {
     }
 
     private void addPacketTypes(PacketType[] packetTypes) {
-        List<PacketType> packetTypesToStartListeningFor = new ArrayList<PacketType>();
+        List<PacketType> packetTypesToStartListeningFor = new ArrayList<>();
         for (int i = 0; i < packetTypes.length; i++) {
             if (!packetTypesListenedFor.contains(packetTypes[i])) {
                 packetTypesListenedFor.add(packetTypes[i]);

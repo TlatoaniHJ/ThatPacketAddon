@@ -19,7 +19,7 @@ public class SkinMundo {
 
     public static void load() {
         Registration.registerType(Skin.class, "skin", "skintexture")
-                .document("Skin Texture", "1.8",
+                .document("Skin Texture", "1.0",
                         "Represents a skin, possibly of a player. Write 'steve' or 'alex' for these respective skins. "
                                 + "This is a duplicate of the skin type found in Tablisknu. If you are using Tablisknu, "
                                 + "ThatPacketAddon will use that skin type instead of this one (this won't affect anything since they are identical).")
@@ -99,7 +99,7 @@ public class SkinMundo {
         });
         Registration.registerExpression(ExprSkinWith.class, Skin.class, ExpressionType.PROPERTY,
                 "skin [texture] (with|of) value %string% signature %string%")
-                .document("Skin with Value", "1.8",
+                .document("Skin with Value", "1.0",
                         "An expression for a skin with the specified value and signature. "
                                 + "This is a duplicate of the Skin with Value Expression in Tablisknu. If you are using Tablisknu, "
                                 + "ThatPacketAddon will use that expression (along with Tablisknu's skin type) instead of this one. "

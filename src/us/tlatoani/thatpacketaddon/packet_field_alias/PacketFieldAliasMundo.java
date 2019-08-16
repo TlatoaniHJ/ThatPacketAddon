@@ -17,7 +17,7 @@ public class PacketFieldAliasMundo {
         }, 0);
         Registration.registerEvent("Packet Field Alias", ScopePacketFieldAliases.class, PacketFieldAlias.ContainerEvent.class,
                 "packet (field|info) aliases for %packettype%")
-                .document("Packet Field Alias", "1.8.2",
+                .document("Packet Field Alias", "1.0",
                         "Not an actual event, but rather a group of packet field aliases "
                         + "to be used with packets of the specified packettype. "
                         + "Packet info aliases are aliases for specific usages of packet info expressions. "

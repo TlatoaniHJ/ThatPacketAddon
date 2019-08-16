@@ -1,5 +1,6 @@
 package us.tlatoani.thatpacketaddon.syntaxes;
 
+import ch.njol.skript.registrations.Classes;
 import ch.njol.skript.util.Version;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.reflect.EquivalentConverter;
@@ -310,7 +311,9 @@ public class Converters {
                 .document("1.0",
                 "The value of the field numbered at the specified index of the specified packet's UUID fields. "
                         + "Note that UUIDs will be returned as a string with dashes, and strings used for setting should also have dashes.");
-        registerField("Worldtype", WorldType.class, PacketContainer::getWorldTypeModifier).document("1.0"); // tested w/ respawn
+        if (Bukkit.getPluginManager().getPlugin("Kosmos") != null) {
+            registerField("Worldtype", WorldType.class, PacketContainer::getWorldTypeModifier).document("1.0").requiredPlugins("Kosmos"); // tested w/ respawn
+        }
         registerField("Minecraft Key", MinecraftKey.class, PacketContainer::getMinecraftKeys).document("1.0"); // tested w/ select_advancement_tab
 
         registerField("Collection", Object[].class, // tested w/ scoreboard_team
@@ -357,9 +360,11 @@ public class Converters {
                 Arrays::asList
         ).document("1.0");
         registerField("Server Ping", WrappedServerPing.class, PacketContainer::getServerPings).document("1.0"); // tested w/ server_info
-        registerField("Vector", Vector.class, PacketContainer::getVectors).document("1.0",
-                "The value of the field numbered at the specified index of the specified packet's playerinfodata list fields. "
-                        + "Note that you need a version of Skript that has vectors in order to use this packet field."); // tested w/ use_entity
+        if (Classes.getExactClassInfo(Vector.class) != null) {
+            registerField("Vector", Vector.class, PacketContainer::getVectors).document("1.0",
+                    "The value of the field numbered at the specified index of the specified packet's playerinfodata list fields. "
+                            + "Note that you need a version of Skript that has vectors in order to use this packet field."); // tested w/ use_entity
+        }
         registerField("Dimension ID", Number.class, // tested w/ login
                 PacketContainer::getDimensions,
                 Function.identity(),
@@ -463,6 +468,9 @@ public class Converters {
                 if (param.isEnum() && param.getName().startsWith("com.comphenix.protocol.wrappers.EnumWrappers")) {
                     String name = param.getSimpleName();
                     if (name.equals("Difficulty")) {
+                        continue;
+                    }
+                    if (name.equals("WorldType") && Bukkit.getPluginManager().getPlugin("Kosmos") != null) {
                         continue;
                     }
                     registerField(name, String.class, packet -> {

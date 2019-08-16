@@ -11,7 +11,7 @@ buildscript {
 apply plugin: 'us.tlatoani.mundocore'
 
 group 'us.tlatoani'
-version '1.0-BETA.2'
+version '1.0-BETA.3'
 
 description  = 'A Skript addon that allows Skripters to manipulate the sending and receiving of Minecraft packets.'
 
@@ -23,11 +23,11 @@ dependencies {
 }
 
 mundo {
-    versionSummary 'Fix documentation for certain packet field expressions, and fix packet event priority.'
+    versionSummary 'Fix issue with the play_server_chat packet in 1.14.'
 
     coreModules(
-            'Base:1.0-BETA.12',
-            'Registration:1.0-BETA.7',
+            'Base:1.0-BETA.14',
+            'Registration:1.0-BETA.8',
             'ReflectiveRegistration:1.0-BETA.2',
             'Enum:1.0-BETA.2',
             'PropertyExpression:1.0-BETA.0',

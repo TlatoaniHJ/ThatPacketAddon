@@ -72,18 +72,18 @@ public class ThatPacketAddon extends MundoAddon {
             Logging.info("ThatPacketAddon requires that you run at least version 4.4 of ProtocolLib");
         }
         Registration.setRequiredPlugins("ProtocolLib");
-        Registration.register("JSON", JSONMundo::load);
-        Registration.register("Packet", ThatPacketAddon::loadSyntaxes);
-        Registration.register("Legacy", ThatPacketAddon::loadLegacySyntaxes);
         Registration.register("Alias", PacketFieldAliasMundo::load);
-        if (!Skin.isTablisknuSkinUsed()) {
-            Registration.register("Skin", SkinMundo::load);
-        }
         Registration.register("DataWatcher", DataWatcherMundo::load);
         Registration.register("GameProfile", GameProfileMundo::load);
+        Registration.register("JSON", JSONMundo::load);
         Registration.register("MinecraftKey", MinecraftKeyMundo::load);
         Registration.register("PlayerInfoData", PlayerInfoDataMundo::load);
         Registration.register("ServerPing", ServerPingMundo::load);
+        if (!Skin.isTablisknuSkinUsed()) {
+            Registration.register("Skin", SkinMundo::load);
+        }
+        Registration.register("Packet", ThatPacketAddon::loadSyntaxes);
+        Registration.register("Legacy", ThatPacketAddon::loadLegacySyntaxes);
     }
 
     private static void loadSyntaxes() {
